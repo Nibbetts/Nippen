@@ -1,0 +1,494 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1033{\fonttbl{\f0\fnil\fcharset0 Consolas;}}
+{\colortbl ;\red0\green0\blue0;\red0\green255\blue0;\red0\green255\blue255;\red0\green0\blue255;\red255\green0\blue255;\red255\green0\blue0;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\b\f0\fs16 NIPPEN PROGRESS PLAN\par
+\pard\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\cf1\b0 Progress key:\cf2\par
+\tab Completed\par
+\cf3\tab Suspended / waiting on something else\cf0\par
+\cf4\tab In the works / partial\cf0\par
+\cf1\tab Not started / <1 item done\par
+\cf5\tab Undecided / idea\cf0\par
+\cf6\tab Decided against\par
+\par
+\tab\cf4 // means current or next projects\cf6\par
+\cf1\par
+\par
+\cf4\b MECHANICS\cf1\par
+\tab\cf4 Character\par
+//\tab\tab\cf0\b0 Overall\par
+\tab\tab\tab make nip move faster\par
+\tab\tab\tab\tab\cf5 fix each ground/air/water/etc motion\par
+\tab\tab\tab\tab increase image speeds to match\par
+\tab\tab\tab\tab OR change room speeds, or have Nip do so, or allow player to set speed in options with slider - variable stored by Nip, so can be different with each saved game\cf0\par
+\tab\tab\tab\cf5 (fire: shoot and glow in dark?; water: blue? (nip starts out gray?); earth: brown, more health?; air, bigger wings?; dark: black skin?; light: white, and glow in dark (more?)?)\cf4\b\par
+\tab\tab\cf3\b0 Solidity of objects\cf4\par
+\tab\tab\tab\cf2 prevent from intersecting with solid objects (done as much as can with decimal pixels)\cf4\par
+\tab\tab\tab\cf2 prevent from stopping before reaching solid objects (done as much as can with decimal pixels)\cf4\par
+\tab\tab\tab\cf2 (Notes:\par
+\tab\tab\tab\tab can go under up to .5, or above by perhaps .1. Also problem with walls I think. [True but unfixable I believe - part of decimal pixels]\par
+\tab\tab\tab\tab Rounding would fix it, but can't round without messing up motion, and don't need to. I think collisions are checked with rounded versions of x and y anyway, as I tried this and produced no difference.\par
+\tab\tab\tab\tab Not causing graphical tearing - that happens at certain zoom settings built-in regardless of nip or view position. (See views).\par
+\tab\tab\tab\tab fixing would prevent nip from getting stuck on slopes once in a while?)\cf6\par
+\tab\tab\tab\tab\cf2 to compensate for above lack, change slope checking to 2 pixels instead of 1 \cf3 (I think this is done)\cf6\b\par
+\cf4\b0\tab\tab On gound\cf1\par
+\tab\tab\tab\cf4 acceleration speeds\par
+\tab\tab\tab\tab sand\cf5 ?\cf4\par
+\tab\tab\tab\tab ice\par
+\tab\tab\tab\tab\tab accel faster if left_right?\par
+//\tab\tab\tab\tab\tab\cf0 make ice melts auto create sliding ice\par
+//\tab\tab\tab\tab\tab make half-triangle ice melts\cf1\par
+\tab\tab\tab\tab\cf2 normal\par
+\cf5\tab\tab\tab\tab other\par
+\tab\tab\tab\tab slope\par
+\cf0\tab\tab\tab\cf4 up slope\cf3\par
+\tab\tab\tab\tab\cf2 prevent damage by shallow slope adhering\cf4\par
+\tab\tab\tab\tab\cf6 move other slope actions to end of step as well?\cf4\par
+\tab\tab\tab\tab\cf2 fix sprites: backsliding and running in place\cf5\par
+//\tab\tab\tab\tab different uphill sprite\par
+\tab\tab\tab\tab\cf2 moderate climbing speed\cf5\par
+\tab\tab\tab\tab\cf2 make sure removed x while loop not actually necessary\cf4  \cf5 (somewhat affects tiny tunnels - acceptable?)\cf0\par
+\tab\tab\tab\tab\cf2 normal\par
+\tab\tab\tab\tab\tab shallow\par
+\tab\tab\tab\tab\tab steep (fixes edge landings by default I think)\cf0\par
+//\tab\tab\tab\tab ice\par
+\tab\tab\tab\tab\tab shallow\par
+\tab\tab\tab\tab\tab medium\cf5\par
+\tab\tab\tab\tab\tab steep\par
+\tab\tab\tab\tab sand\par
+\tab\tab\tab\tab other\par
+\tab\tab\tab\cf4 down slope\par
+\tab\tab\tab\tab\cf2 make nip adhere to shallow slopes to smooth running down them\cf5\par
+\tab\tab\tab\tab\tab\cf2 Actually adhere, by force moving down when near, not just sprite change\cf5\par
+\tab\tab\tab\tab\tab\cf6 Alternative: if moving messes things up: just change sprite when near. (Works already - remove force motion if needed)\cf5\par
+\tab\tab\tab\tab\tab\cf6 Alternative 2: create general slope parent object - useful for ice as well? (Can't do same with ice, though, because ice already has parent; only 1 allowed.)\par
+//\tab\tab\tab\tab\cf5 stop flickery landings on steep slopes\cf6\par
+\cf5\tab\tab\tab\tab\cf2 earth/stone\cf5\par
+\tab\tab\tab\tab\tab\cf2 medium \cf6 (force_xspeed instead of target_xspeed? - didn't work for this)\cf4\par
+\tab\tab\tab\tab\tab\tab\cf2 when press down go faster and change sprite\par
+\tab\tab\tab\tab\tab steep\cf5\par
+\pard\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tab\tab\tab\tab\tab\tab\cf2 fall2 sprite\par
+\tab\tab\tab\tab\tab\tab when try to go other direction, slow and change to first fall sprite, not stop\par
+\cf1\tab\tab\tab\tab\tab\tab\cf2 when slip change direction to match sliding direction\cf5\par
+\pard\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\cf4 //\cf0\tab\tab\tab\tab ice \cf5 (force_xspeed instead of target or forcex?)\par
+\tab\tab\tab\tab\tab create general slope parent object? (see nip adhering to shallow slopes)\par
+\tab\tab\tab\tab\tab (use near_ground for slope checking?)\cf0\par
+\tab\tab\tab\tab\tab shallow\par
+\tab\tab\tab\tab\tab medium\par
+\tab\tab\tab\tab\tab\cf5 steep (Have to rearrange code because can't have both ice and steep parents! Or make two separate parents.) (WAIT -- is steep differentiation actually necessary, or will they work the same anyway?!?)\par
+\tab\tab\tab\tab sand\cf1\par
+\tab\tab\tab\tab\cf4 no slide\cf2  (not for steep)\cf5\par
+\tab\tab\tab\tab other\par
+\tab\tab\tab\tab\cf2 change to 2 pixel checking to fix sticking due to broken collision checking\par
+\cf5\tab\tab\tab (perhaps even give all solid objects slope_top, slope_bottom, slope_left, slope_right variables preset to know if they are slopes on that side? (problem if multiple? no actually because of precise collision checking))\par
+\tab\tab\tab with powerups\par
+\cf1\tab\tab\tab push-through platforms\par
+\tab\tab\tab\cf3 forced motion in position fixing in end of step (see scenery)\cf1\par
+\tab\tab\cf4 in air\cf1\par
+\tab\tab\tab\cf4 flying\cf2\par
+\tab\tab\tab\tab gliding\par
+\tab\tab\tab\tab falling\par
+\tab\tab\tab\tab flapping\par
+\tab\tab\tab\tab\cf4 falling\cf2\par
+\tab\tab\tab\tab\tab straight if down key pressed\par
+\cf4 //\cf2\tab\tab\tab\tab\tab\cf4 fall3 sprite\cf5\par
+\tab\tab\tab\tab\tab\cf4 konk\cf5  (straight)\par
+\tab\tab\tab\tab\tab\cf6 OR: make falling parabolic, with starting motion taken from previous \cf5 (only if a falling cinematic I think)\cf6\par
+\cf2\tab\tab\tab\tab\cf6 flapping straight (glide + left/right arrow; would contain some upwards motion)\par
+\cf1\tab\tab\tab falling through platforms (down arrow) (see platforms)\par
+\tab\tab\tab flying limitation without orb\par
+\tab\tab\tab\cf4 flying with orb\cf1\par
+\cf4\tab\tab\tab crashing (see konk) \cf5 (falling straight down? \cf2 different sprite makes it plausible\cf5 )\par
+\tab\tab\tab\tab ceiling (if hit and let go? if too fast?)\par
+\cf1\tab\tab\tab\tab\cf4 walls \cf5 (konk or not?)\par
+\cf4\tab\tab\tab\tab floor (correlate with fall2 speed)\par
+\tab\tab\tab hanging \cf5 (hanging from ceiling only starts if not pressing keys, else hard for small tunnels?)\cf4\par
+\tab\tab\tab\cf2 slipping up slopes of ceiling\cf3  (now fixed enough?)\cf4  \cf2 (and not getting caught on corners)\cf1\par
+\tab\tab\cf4 in water\cf1\par
+\tab\tab\tab\cf3 swimming\par
+\cf4\tab\tab\tab\tab swimming down\par
+\tab\tab\tab\tab\tab\cf1 sloped floors\par
+\pard\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tx2160\tab\tab\tab\tab\tab\tab left/right keys\par
+\pard\nowidctlpar\tx360\tx720\tx1080\tx1440\tx1800\tab\tab\tab\tab\tab\tab down key\cf3\par
+\cf2\tab\tab\tab\tab swimming\par
+\tab\tab\tab\tab\tab\cf0 sliding down sloped ceilings\cf5  (try force_xspeed instead of target_xspeed)\cf0\par
+\tab\tab\tab\tab\tab sliding up sloped floors\cf3\par
+\cf2\tab\tab\tab\tab swimming up\cf4\par
+\tab\tab\tab\tab\tab\cf2 sloped ceilings\cf4  \cf3 (now fixed enough?)\par
+\cf2\tab\tab\tab\tab no key pressed\cf3\par
+\tab\tab\tab\tab background/water transparency/depth/edge problems\par
+\tab\tab\tab\tab\tab\cf5 change visual depth when under water/lava\par
+\tab\tab\tab\tab\tab OR different background depths\par
+\tab\tab\tab\tab\tab OR make nip semitransparent\par
+\tab\tab\tab swimming when heavier (earth orb?)\par
+\tab\tab\tab\tab float down instead of up\par
+\tab\tab\tab\tab sliding down slopes\par
+\tab\tab\tab\tab adhering to shallow slopes when running (goes in main arrow key events)\par
+\tab\tab\tab\tab\tab use alternative near_ground and add code for main_arrow_key_events/left_right/in_water because other only works when air_state = 1, out of water\cf1\par
+\tab\tab\tab breathing\par
+\tab\tab\tab breathing/swimming with orb\par
+\tab\tab\tab konk \cf5 (float up or down?)\par
+\tab\tab\tab\cf3 splashes\par
+\tab\tab\tab\tab\cf2 splash on top\cf5\par
+\tab\tab\tab\tab splash on underside of floating water\cf1\par
+//\tab\tab\cf4 jumpthru platforms\par
+\tab\tab\tab\cf2 flat\par
+\tab\tab\tab slopes\cf3\par
+\tab\tab\tab pushing down through\par
+\tab\tab\tab flying up through\par
+\cf4\tab\tab\tab gliding sideways through (use two new parent objects under jumpthru parent for slopes)\cf1\par
+\tab\tab in crawl pipe\par
+\tab\tab in lava\par
+\tab\tab\tab without orb \cf5 (death or hurt or bounce off surface with hiss and smoke and slight addition of energy?)\cf1\par
+\tab\tab\tab with orb\par
+\cf5\tab\tab in gooey/mud/thick water (see lava)\cf1\par
+\tab\tab in sand with earth orb\par
+\tab\tab scenery\par
+//\tab\tab\tab moving platforms \cf5 (can't just check position, because of other moving object. Check both my new position AND my new position + future changes in other object's position - if not free, means I'm being squashed between two objects!)\cf1\par
+\tab\tab\tab\tab up/down\par
+\tab\tab\tab\tab left/right\par
+\tab\tab\tab\tab hybrid (use code with other also?)\par
+\cf5\tab\tab\tab\tab launchers\par
+\tab\tab\tab\tab\tab if yspeed < -3 or -4 sprite_index = spr_nip_fly\par
+\tab\tab\tab\tab smashers - use force_deadly_x?\cf1\par
+\cf5\tab\tab\tab hinged terrain\par
+\tab\tab\tab falling terrain\cf1\par
+\tab\tab\tab wheel/gear\par
+\tab\tab\tab in waterfall/air gust or blower/smoke/gyser/flowing pipe\par
+\tab\tab\tab in wind\par
+\tab\tab\tab\cf5 on squishy/mud\par
+\cf1\tab\tab\tab hurtful things (see enemies and scenery mechanics)\par
+\tab\tab\tab\cf5 ladders/vines (for when can't fly?)\par
+\tab\tab\tab giant spiderwebs\cf1\par
+\tab\tab\cf6 jumping \cf5 (fix that thing with jump problem even if not use jump so that when only press up for one step you glide like normal instead of fall?)\cf1\par
+\tab\tab paused \cf5 (see menu?) (see konk)\par
+\tab\tab\tab change image speeds to own engine or subtract image index each step paused\cf1\par
+\tab\tab sitting/sleeping\par
+\tab\tab enemies\par
+\tab\tab shooting/other attacks\par
+\tab\tab konk/health/energy\par
+\tab\tab\tab\cf5 lives\par
+\tab\tab\tab\tab three?\par
+\tab\tab\tab\tab blink when hurt\par
+\tab\tab\tab\tab maybe blink faster and faster the more hurt, till death/konk? slows quickly after.\cf1\par
+\tab\tab\tab energy bar\par
+\tab\tab\tab\cf4 konked out\par
+\tab\tab\tab\tab air\par
+\tab\tab\tab\tab ground\par
+\tab\tab\tab\tab\cf0 water\par
+\cf5\tab\tab\tab\tab blink when hurt\cf1\par
+\tab\tab\tab death\par
+\tab\tab cinematic loss of control \cf5 (conversations too?)\cf0  (see paused)\cf1\par
+\tab\tab other orbs\cf5 /powerups\cf1\par
+\tab\tab object interaction\par
+\tab\tab\tab switches/buttons/levers etc.\par
+\tab\tab\tab doors\par
+\cf5\tab\tab\tab inventory\cf1 /carry (see menus)\par
+\cf5\tab\tab\tab pushable things\par
+\tab\tab\tab\tab crates\par
+\tab\tab\tab\tab minecart\par
+\tab\tab\tab\tab ice block\cf1\par
+\tab\tab room switching (see room-switching)\par
+\tab\tab\tab intersect boundary, mapping\par
+\tab\tab\tab compatibility with carrying\par
+\tab\tab\tab world gates\par
+\tab\tab\tab (rooms can be persistent remember)\par
+\tab\b Enemies\par
+\tab\tab\b0 (remember rooms can be persistent)\b\par
+\tab Other persons\par
+\b0\tab\tab Nippen\par
+\tab\tab Villagers\par
+\tab\tab followable persons/nippen\par
+\tab\tab\cf5 guardians\par
+\cf0\tab\tab (see cinematics)\cf1\par
+\b\tab Scenery etc.\b0\par
+\tab\tab gears/wheels/water wheel\par
+\tab\tab ice melting\par
+\tab\tab\tab\cf5 (normal ice like snowcover or cling or jumpthru, but this separate? would make slope checking easier? Would break it?\par
+\tab\tab\tab Perhaps normal ice is "iced" instead, where bricks are icy visually, and will refreeze if thawed\par
+\tab\tab\tab If use this method: solid ice comes only in triangles, with six textured to look like 3d edges, and others generic perhaps;\par
+\tab\tab\tab\tab Icy coating is semitransparent at edges and overlaps iciness next to. Is textured semitransparent overlay. fades out and in as thawed and refrozen, changes parent object.\par
+\tab\tab\tab\tab Needs to be overlayed over solid ice too, won't fade back in if no solid object below?\par
+\tab\tab\tab\tab does solid ice refreeze? Only used for frozen pond and ice cave barrier?)\cf1\par
+\tab\tab breakable ground/cracked bricks/thin ice\par
+\tab\tab falling terrain\par
+\tab\tab pipes\par
+\tab\tab\tab water flow\par
+\tab\tab\tab placement of walls and crawl-pipe object\par
+\tab\tab interactive switches\par
+\tab\tab\tab levers\par
+\tab\tab\tab\cf5 locking wheels\cf1\par
+\tab\tab\tab\cf5 buttons\cf1\par
+\tab\tab\cf5 flowing water\cf1\par
+\tab\tab doors\par
+\tab\tab moving platforms \cf5 (& launchers)\cf1\par
+\cf5\tab\tab hinged terrain\par
+\tab\tab invisible and illusory blocks\cf1\par
+\tab\tab\cf5 blowers etc.\par
+\tab\tab words things (or under Specials)\par
+\tab\tab giant spiderwebs\par
+\tab\tab\cf0 wires (see puzzle objects)\par
+\tab\tab magical virtical barriers against flight past a point to protect certain areas\par
+\cf5\tab\tab pushable blocks\cf0\par
+\cf5\tab\tab\tab crates\par
+\tab\tab\tab mine cart\par
+\tab\tab\tab ice blocks\cf1\par
+\b\tab Specials\b0\par
+\tab\tab Orbs\par
+\tab\tab keys\par
+\cf5\tab\tab Misc. objects\cf1\par
+\tab\tab\cf5 Hints (things like ladders/vines?)\cf1\par
+\tab\tab\cf5 words things (or under Scenery)\par
+\tab\tab\cf0 puzzle objects\par
+\tab\tab\tab optical puzzles\par
+\tab\tab\tab\tab light\par
+\tab\tab\tab\tab mirrors\par
+\tab\tab\tab\tab lenses/prisms\par
+\tab\tab\tab\tab color switches\par
+\tab\tab\tab\tab destination piece\par
+\cf5\tab\tab\tab\tab doors with colored light beam as key\cf0\par
+\tab\tab\tab\tab\cf5 etc.\cf0\par
+\tab\tab\tab "electricity" magic puzzles/\cf5 fibre-optics\cf0\par
+\tab\tab\tab water puzzles\par
+\tab\tab\tab earth puzzles\par
+\tab\tab\tab\tab using moving platforms and levers\par
+\cf5\tab\tab\tab\tab things on rails/attached to cords\par
+\tab\tab\tab\tab falling terrain (by levers and/or not?)\cf0\par
+\cf5\tab\tab\tab solar/star room puzzle\cf0\par
+\cf5\tab\tab\tab gear puzzles\par
+\tab\tab\tab\cf0 air puzzles\par
+\cf5\tab\tab\tab dark puzzle\cf1\par
+\b\tab Menus\b0\par
+\tab\tab Main menu\par
+\tab\tab\tab save\par
+\tab\tab\tab\tab\cf5 or instead a mechanism in game for saving, when not in danger or moving, and on flat ground, can save - takes a moment to make sure safe as magic swirls around you or something?\par
+\tab\tab\tab\tab or menu button only works in certain rooms where not in danger or something?\par
+\tab\tab\tab\tab or when on ground remembers what block and starts back at last when die?\par
+\tab\tab\tab\tab or save by lighting torches? but that mechanism is already in use with fire\cf1\par
+\tab\tab\tab load\par
+\tab\tab\tab quit game\par
+\tab\tab\tab quit program\par
+\tab\tab\tab options\par
+\cf5\tab\tab\tab\tab speed (based on room speed? see level design)\par
+\tab\tab\tab\tab particles\par
+\tab\tab\tab\tab window size/mode / pixelated?\cf1\par
+\cf5\tab\tab\tab etc.\cf1\par
+\tab\tab\cf5 In-game menu (paused? see character)\par
+\tab\tab\tab simple?\par
+\tab\tab\tab Or inventory/map?\par
+\tab\tab controller object\par
+\cf1\b\tab Room switching/map (see level design)\par
+\cf5\b0\tab\tab square or odd?\par
+\cf0\tab\tab compatibility with \cf5 carrying\cf0\par
+\tab\tab gates\par
+\tab\tab (rooms can be persistent, remember)\par
+\tab\tab\cf5 accelerating room speed as game progresses (by controller or by room)\par
+\tab\tab\cf0 transitions: see imagery\cf1\b\par
+\tab Story/words\b0\par
+\tab\tab words/dialogue\par
+\tab\tab cinematics\par
+\cf5\tab\tab controller object (see menus)\cf1\par
+\b\tab Saving\b0\par
+\tab\tab saving/loading\par
+\tab\tab death/returning\par
+\tab\tab\cf5 backtracking\par
+\tab\tab controller object (see menus)\par
+\tab\cf4\b Views\cf5\b0\par
+\tab\tab Make window dragging like moving the view pane around, so you can see beyond where you normally would be able to? Let go and it returns to Nip, and window to center of screen.\par
+\tab\tab\cf4 Fix my jimmyrigging of 199%\par
+\tab\tab OR change to either 100% or 300% - both work great.\par
+\cf5\tab\tab try using a surface - draw all to surface instead, and then draw surface stretched - may work for 200% and other odd, may allow player to set whatever zoom they want\cf4\par
+\tab\tab\cf5 allow player to choose in options menu, depending on screen resolution of player; also between crisp pixels and filling the screen\par
+\tab\tab also between fullscreen and windowed\cf0\par
+\tab\tab\cf4 best size of view I think is \b 480x320\b0 ,\cf0  \cf5 which x3 is bigger than average. So... if not inhibit gameplay allow player to choose to chop off edges too for 3x effect sake? (x2 this size is great, though! If works well enough, and on all machines....)\par
+\tab\tab\cf4 biggest size that fits into 1024x768 is 340x256. Another option is 426x340, which fits (just smaller than) 1280x1024, at 1278x1020. This is less wide-screen than 480x320.\cf5\par
+\tab\tab and/or give options between tiny stuff + bigger view range and big stuff + smaller view range, with in-game switch button.\par
+\tab\tab At this rate maybe options menu will just have a big list of checkboxes, in two columns, one for fullscreen and one for windowed, with ones incompatible with resolution grayed out.\par
+\tab\tab Also, if make scale 1:1 then use global game settings (or code equivalents) can make any scale player wants, though fuzzy.\par
+\tab\cf0\b Initial loading and Icon\par
+\tab\tab\cf5\b0 Loading bar: gif image of largely pixelated Nip flying, streaming a banner waving up and down with his flaps with word "Loading..." on it\b\par
+\cf4 IMAGERY\cf1\par
+\cf0\tab Cursor\cf5\par
+\tab\tab\cf0\b0 turn off cursor to help graphics speed \cf5 (Replace with object/built-in?\cf0 )\par
+\cf5\tab\tab fades away after not moving\cf4\b\par
+\tab Invisible collision shapes\par
+\tab\tab\cf2\b0 solid\cf4\par
+\cf5\tab\tab\cf2 ice\par
+\tab\tab\cf1 icy coating sprites (not invisible or collision shapes)\cf5\par
+\tab\tab water\tab or real sprites to simplify\par
+\tab\tab lava\tab "\par
+\tab\tab sand\tab "\cf4\par
+\tab\tab pipecrawl\par
+\tab\tab\tab generic\par
+\tab\tab\tab borders\par
+\tab\tab\cf2 jumpthru\cf4  \cf6 w/ fall\par
+\cf5\tab\tab\tab\cf2 flat\cf5\par
+\tab\tab\tab\cf2 slopes\cf5\par
+\tab\tab\cf6 jumpthru w/out fall\cf5\par
+\tab\tab walls that only stop you if on ground (like when on a tree branch, and run into trunk)\par
+\cf4\tab\tab cling\par
+\tab\tab\cf5 snowcover\cf4\par
+\cf5\tab\tab specials?\par
+\cf2\tab\tab nip mask\cf1\b\par
+\tab\cf4 Sprites\cf1\b0\par
+\tab\tab\cf3 Nip\par
+\tab\tab\tab\cf5 color(s)\par
+\cf3\tab\tab\tab\cf1 shade and detail\cf3\par
+\tab\tab\tab split left and right in code to fix pixel tearing in zoomed mode \cf5 (already fixed? or jimmyrigged and bound to break? (200+/-1 % view) could revert to rounding drawing position?)\cf3\par
+\cf2\tab\tab\tab basic sprite shapes\par
+\tab\tab\tab\tab stand\par
+\tab\tab\tab\tab run\par
+\tab\tab\tab\tab sit\par
+\tab\tab\tab\tab shoot\par
+\tab\tab\tab\tab fly\par
+\tab\tab\tab\tab glide\par
+\tab\tab\tab\tab fall\par
+\tab\tab\tab\tab fall2\par
+\tab\tab\tab\tab\cf4 fall3\cf2\par
+\tab\tab\tab\tab swim\par
+\tab\tab\tab\tab dive\par
+\tab\tab\tab\tab\cf5 climb\cf2\par
+\tab\tab\tab\tab hang\par
+\tab\tab\tab\tab konk\par
+\tab\tab\tab duplicate sprites with smaller wings\cf1\tab\tab Enemies\par
+\tab\tab Other persons\par
+\tab\tab Objects\par
+\tab\tab\tab specials\par
+\tab\tab\tab orbs\par
+\tab\tab\tab\cf3 effects\cf1\par
+\tab\tab\tab\tab\cf2 water splash\par
+\tab\tab\tab\tab\cf1 other\cf5 ...\cf1\par
+\tab\tab\cf5 Scenery\cf1\par
+\b\tab Backgrounds\b0\par
+\tab\tab Extend edges of tiles to cover tearing gaps, if there are any gaps after change to SLIGHTLY LOWER THAN 200% size;\par
+\tab\tab\tab make sure all rooms are same change of stretch size!\par
+\tab\tab\tab Also make sure this method of fixing previous tearing works on other computers!\par
+\tab\tab\tab Also see if slightly more than 200% gives better results -\par
+\tab\tab\tab\tab - water might be a problem now, because of transparency overlapping? (larger would create unfixable gaps with hex tiles!)\par
+\tab\tab\tab test 300% scaling for similar bugs, and for background gaps\par
+\tab\tab Large backgrounds\par
+\tab\tab Tilesets\par
+\tab\tab\tab Rock\par
+\tab\tab\tab dirt\par
+\tab\tab\tab giant trees\par
+\tab\tab\tab grass\par
+\tab\tab\tab carpet\par
+\tab\tab\tab other groundcover\par
+\tab\tab\tab ice\par
+\tab\tab\tab built stone\par
+\tab\tab\cf5\tab lava\par
+\tab\tab\tab water\cf1\par
+\tab\tab\tab\cf5 sand\cf1\par
+\tab\tab\tab pipes\par
+\tab\tab\tab specials/\cf5 hints (things like ladders?)\par
+\tab\tab\tab\cf1 scenery\par
+\tab\tab\tab\tab trees\par
+\b\tab Menus\b0\par
+\tab\tab Main menu\par
+\tab\tab\tab buttons\par
+\tab\tab\tab backgrounds\par
+\tab\tab\cf5 In-game menu (paused? side panel? see character)\par
+\tab\tab\tab buttons\par
+\tab\tab\tab Backgrounds\par
+\tab\tab Map(s)\cf1\par
+\b\tab\cf5 Room Transitions\par
+\tab\tab\b0 probably short, like 8 steps instead of 80, and just black fade in and out.\par
+\cf1\b SOUND\par
+\tab music\par
+\tab music mechanics\par
+\tab ambient noise\b0\par
+\tab\tab Wind in the trees\par
+\tab\tab birds\par
+\cf5\tab\tab rumble of earth\cf1\par
+\cf5\tab\tab machinery\par
+\tab\tab\tab whirr\par
+\tab\tab\tab clanking\par
+\tab\tab\tab other\cf1\par
+\tab\tab total silence\par
+\tab\tab bubbling lava\par
+\tab\tab ocean waves\par
+\tab\tab creepy whistling wind\par
+\cf5\tab\tab howling wolves/cyotes\par
+\tab\tab owl\par
+\tab\tab bats\cf1\par
+\tab\tab rumble of carts/gears/engines\par
+\cf5\tab\tab desert wind/sand\par
+\tab\tab river\par
+\tab\tab snow/blizzard wind\cf1\par
+\cf5\tab\tab stick break\cf1\par
+\tab\tab magical buzz like electricity\par
+\cf5\tab\tab chimes (wind & magic?)\cf1\par
+\b\tab\cf5 sound effects\cf1\par
+\tab\cf5 cinematics/voice\cf1\par
+\tab specials\par
+STORY\par
+\cf4\tab main plot\par
+\cf5\tab written story\cf1\par
+\cf5\tab alternate endings\cf1\par
+\tab cinematics (see mechanics)\b0\par
+\b LEVEL DESIGN\par
+\tab menus\par
+\cf5\tab in-game menu (see other)\cf1\par
+\tab main levels (see mechanics)\b0\par
+\tab\tab planning\par
+\tab\tab\tab main world\par
+\cf5\tab\tab\tab\tab water\par
+\tab\tab\tab\tab earth\par
+\tab\tab\tab\tab air\par
+\tab\tab\tab\tab fire\par
+\tab\tab\tab\tab watchtower\par
+\tab\tab\tab\tab human village(s)\par
+\tab\tab\tab\tab nippen refuge\par
+\tab\tab\tab\tab thorny/spidery dark jungle\par
+\tab\tab\tab\tab\tab honeycomb wasp nest\par
+\tab\tab\tab\tab ruined city(ies)\par
+\tab\tab\tab\tab forest (smaller trees?)\par
+\tab\tab\tab\tab plains\par
+\tab\tab\tab\tab wasteland\par
+\tab\tab\tab\tab mountains\par
+\tab\tab\tab\tab volcano\par
+\tab\tab\tab\tab dark tower/fortress (ruins and underground?)\par
+\tab\tab\tab\tab chasm\par
+\tab\tab\tab\tab airship\cf1\par
+\tab\tab\tab Nippen\par
+\cf5\tab\tab\tab earth\par
+\tab\tab\tab air\par
+\tab\tab\tab water\par
+\tab\tab\tab fire\par
+\tab\tab\tab dark\par
+\tab\tab\tab refuge\par
+\tab\tab\tab other?\cf1\par
+\tab\tab building\par
+\cf5\tab\tab (possible use of slightly varying/accelerating room speeds, or as game progresses, or in options menu (see Overall at top))\cf1\par
+\b\tab puzzle planning\b0\par
+\cf4\tab\tab light puzzle\cf0\par
+\tab\tab\cf5 "electricity" magic puzzles\par
+\tab\tab\tab light switches in the dark\par
+\cf4\tab\tab water puzzles\par
+\tab\tab\tab tank\par
+\tab\tab\tab\cf5 flowing water streams/tunnels\par
+\tab\tab\tab valves, underground lakes, pipes - having to "prime the pump" and turn on water to the whole castle, from a water wheel(?) to main line to...\cf4\par
+\tab\tab\tab\cf5 sound, water, glass, tuning forks, and music reel\par
+\cf0\tab\tab earth puzzles\par
+\tab\tab\tab moving blocks\par
+\tab\tab\tab moving rooms\par
+\cf5\tab\tab gear puzzles\par
+\tab\tab pushable blocks/ crates (of different sizes?)\par
+\tab\tab minecart(s) (and electricity magic?)\par
+\tab\tab\cf0 air puzzles\par
+\cf5\tab\tab\tab co2 filled rooms/pumps, crawl tubes\par
+\cf0\tab\tab\tab air current blowers and switches\par
+\tab\tab fire puzzles\par
+\tab\tab\tab\cf5 maze\cf0\par
+\tab\tab\tab gas pressure gague and door\par
+\tab\tab\tab lighting of torches\par
+\cf5\tab\tab lock that is a door\par
+\tab\tab ice caves\par
+\tab\tab\tab\cf0 ice wall blocking cave\cf5\par
+\tab\tab\tab ice tunnels, and pushable ice blocks\par
+\tab\tab beacon(s) (activate to wake up a defense mechanism? Activate to unlock light orb? Activate to bring back nippen world or light world or throne world or ruin world or something? Or to activate a world gate?)\par
+\cf1\b PUBLISHING\par
+\tab copyright\par
+\tab publishing\par
+\tab\cf5 pricing\par
+\tab monetizing\cf1\b0\par
+}
+ 
